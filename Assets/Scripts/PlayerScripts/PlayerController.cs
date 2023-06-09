@@ -42,6 +42,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate () {
-        rgbd2d.MovePosition ( rgbd2d.position + movement * moveSpeed * Time.fixedDeltaTime );
+        rgbd2d.MovePosition ( rgbd2d.position + movement.normalized * moveSpeed * Time.fixedDeltaTime );
     }
 }
