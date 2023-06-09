@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36b2e23c657478237bba43114c7b, type: 3}
   m_Name: GoldArmor
   m_EditorClassIdentifier: 
-  itenName: Gold Armor
+  itemID: 1
+  itemName: Gold Armor
   itemDesc: An armor that is good for defense.
   itemImage: {fileID: 543373167, guid: 9b983ae258e90aa46ad05f5774d61116, type: 3}
-  numberHeld: 1
+  numberHeld: 0
   goldValue: 0
   sellValue: 0
   itemType: 1

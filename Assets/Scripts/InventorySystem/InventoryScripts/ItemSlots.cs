@@ -7,9 +7,11 @@ using UnityEngine.UI;
 public class ItemSlots: MonoBehaviour {
 
     [Header ( "ITEM DATA" )]
-    public InventoryItem invetoryItem;
+    public InventoryItem inventoryItem;
     public InventoryManager inventoryManager;
     public ShopManager shopManager;
+    public int itemID;
+    public bool equipped;
 
     [Header ( "DATA FROM UI CHANGES" )]
     [SerializeField] private TextMeshProUGUI itemNumberText;
@@ -24,21 +26,23 @@ public class ItemSlots: MonoBehaviour {
     }
 
     public void Setup ( InventoryItem newItem, InventoryManager newManager ) {
-        invetoryItem = newItem;
+        inventoryItem = newItem;
         inventoryManager = newManager;
-        if ( invetoryItem ) {
-            itemImage.sprite = invetoryItem.itemImage;
-            itemNumberText.text = "" + invetoryItem.numberHeld;
+        if ( inventoryItem ) {
+            itemImage.sprite = inventoryItem.itemImage;
+            itemNumberText.text = "" + inventoryItem.numberHeld;
+            itemID = newItem.itemID;
             itemSellValue = newItem.sellValue;
         }
     }
 
     public void SetupShopItems ( InventoryItem newItem, ShopManager newManager ) {
-        invetoryItem = newItem;
+        inventoryItem = newItem;
         shopManager = newManager;
-        if ( invetoryItem ) {
-            itemImage.sprite = invetoryItem.itemImage;
-            itemNumberText.text = "" + invetoryItem.numberHeld;
+        if ( inventoryItem ) {
+            itemImage.sprite = inventoryItem.itemImage;
+            itemNumberText.text = "" + inventoryItem.numberHeld;
+            itemID = newItem.itemID;
             itemGoldValue = newItem.goldValue;
             shopItem = true;
         }
@@ -46,23 +50,33 @@ public class ItemSlots: MonoBehaviour {
 
     public void ClickedOn () {
         if ( shopManager.shopEnabled ) {
-            if ( invetoryItem && shopItem ) {
+            if ( inventoryItem && shopItem ) {
                 AddItem ();
             } else {
-                Debug.Log ( "SELL" );
+                RemoveItem ( inventoryItem );
             }
         } else {
-
+            if ( inventoryItem.itemType.Equals (InventoryItem.ItemType.Armor ) && !equipped ) {
+                this.gameObject.transform.SetParent ( inventoryManager.equipmentSlots [ itemID ].gameObject.transform );
+                this.gameObject.transform.localPosition = new Vector3 ( 0f, 0f, 0f );
+            } 
         }
     }
 
     public void AddItem () {
-        if ( inventoryManager.playerInventory.myInventory.Contains ( invetoryItem ) ) {
-            invetoryItem.numberHeld += 1;
+        if ( inventoryManager.itemList.Contains ( inventoryItem ) ) {
+            inventoryItem.numberHeld += 1;
             inventoryManager.MakeInventorySlot ();
         } else {
-            inventoryManager.playerInventory.myInventory.Add ( invetoryItem );
-            invetoryItem.numberHeld += 1;
+            inventoryManager.itemList.Add ( inventoryItem );
+            inventoryItem.numberHeld = 1;
+            inventoryManager.MakeInventorySlot ();
+        }
+    }
+
+    public void RemoveItem ( InventoryItem inventoryItem ) {
+        if ( inventoryManager.itemList.Contains ( inventoryItem ) ) {
+            inventoryItem.numberHeld -= 1;
             inventoryManager.MakeInventorySlot ();
         }
     }

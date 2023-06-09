@@ -8,7 +8,8 @@ public class ShopManager: MonoBehaviour {
 
     public bool shopEnabled;
     public PlayerInventory shopInventory;
-    //public List<InventoryItem> itemList = new List<InventoryItem> ();
+
+    public List<InventoryItem> shopItemList = new List<InventoryItem> ();
 
     [SerializeField] private GameObject blankInventorySlot;
     [SerializeField] private GameObject list;
@@ -16,6 +17,7 @@ public class ShopManager: MonoBehaviour {
     public InventoryItem currentItem;
 
     private void Start () {
+
         MakeInventorySlot ();
     }
 
@@ -23,20 +25,19 @@ public class ShopManager: MonoBehaviour {
 
     }
     public void MakeInventorySlot () {
-        //for ( int i = 0; i < itemList.Count; i++ ) {
-        //    itemList [ i ].numberHeld = 1;
-        //    shopInventory.myInventory.Add ( ScriptableObject.Instantiate ( itemList [ i ] ) );
-        //}
-        
+        for ( int i = 0; i < shopInventory.myInventory.Count; i++ ) {
+            shopItemList.Add ( ScriptableObject.Instantiate ( shopInventory.myInventory [ i ] ) );
+        }
 
         if ( shopInventory ) {
-            for ( int i = 0; i < shopInventory.myInventory.Count; i++ ) {
+            for ( int i = 0; i < shopItemList.Count; i++ ) {
                 GameObject temp = Instantiate ( blankInventorySlot, list.transform.position, Quaternion.identity );
                 temp.transform.SetParent ( list.transform );
                 ItemSlots newSlot = temp.GetComponent<ItemSlots> ();
                 newSlot.transform.localScale = new Vector3 ( 1f, 1f, 1f );
                 if ( newSlot ) {
-                    newSlot.SetupShopItems ( shopInventory.myInventory [ i ], this );
+                    shopItemList [ i ].numberHeld = 1;
+                    newSlot.SetupShopItems ( shopItemList [ i ], this );
                 }
             }
         }

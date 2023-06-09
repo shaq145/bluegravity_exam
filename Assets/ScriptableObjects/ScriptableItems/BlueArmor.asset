@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36b2e23c657478237bba43114c7b, type: 3}
   m_Name: BlueArmor
   m_EditorClassIdentifier: 
-  itenName: Blue Armor
+  itemID: 1
+  itemName: Blue Armor
   itemDesc: A light armor good for defense and speed.
   itemImage: {fileID: 283415120, guid: da9d7d74a0c03c942ba2e5990443a1de, type: 3}
-  numberHeld: 1
+  numberHeld: 0
   goldValue: 0
   sellValue: 0
   itemType: 1

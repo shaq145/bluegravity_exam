@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36b2e23c657478237bba43114c7b, type: 3}
   m_Name: NoviceShorts
   m_EditorClassIdentifier: 
-  itenName: Novice Shorts
+  itemID: 1
+  itemName: Novice Shorts
   itemDesc: A normal shorts.
   itemImage: {fileID: -1545475700, guid: b94ae8adef8c62943a6d8154d57afd19, type: 3}
-  numberHeld: 1
+  numberHeld: 0
   goldValue: 0
   sellValue: 0
   itemType: 1

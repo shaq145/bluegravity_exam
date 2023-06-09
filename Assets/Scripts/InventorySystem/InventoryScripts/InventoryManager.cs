@@ -8,8 +8,14 @@ public class InventoryManager : MonoBehaviour {
 
     public PlayerInventory playerInventory;
 
+    public List<InventoryItem> itemList = new List<InventoryItem> ();
+
+    public bool openInventory;
+    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject blankInventorySlot;
     [SerializeField] private GameObject list;
+
+    public GameObject [] equipmentSlots;
 
     public InventoryItem currentItem;
 
@@ -18,31 +24,29 @@ public class InventoryManager : MonoBehaviour {
     }
 
     public void Update () {
+        if ( Input.GetKeyDown (KeyCode.I) ) {
+            openInventory = !openInventory;
+        }
 
+        if ( openInventory ) {
+            inventoryPanel.SetActive ( true );
+        } else {
+            inventoryPanel.SetActive ( false );
+        }
     }
-
-    //public void AddItem (string name, string desc, Sprite itemImage, Sprite lootImage, int amt, int eqId) {
-    //    blankInventorySlot.gameObject.name = name;
-    //    blankInventorySlot.itemName = name;
-    //    blankInventorySlot.itemDescription = desc;
-    //    blankInventorySlot.itemImage = itemImage;
-    //    blankInventorySlot.lootImage = lootImage;
-    //    blankInventorySlot.equipID = eqId;
-    //    //itemList.Add (newItem);
-
-    //    MakeInventorySlot (amt);
-    //}
 
     public void MakeInventorySlot () {
         ClearInventorySlots ();
         if ( playerInventory ) {
-            for ( int i = 0; i < playerInventory.myInventory.Count; i++ ) {
-                GameObject temp = Instantiate ( blankInventorySlot, list.transform.position, Quaternion.identity );
-                temp.transform.SetParent ( list.transform );
-                ItemSlots newSlot = temp.GetComponent<ItemSlots> ();
-                newSlot.transform.localScale = new Vector3 ( 1f, 1f, 1f );
-                if ( newSlot ) {
-                    newSlot.Setup ( playerInventory.myInventory [ i ], this );
+            for ( int i = 0; i < itemList.Count; i++ ) {
+                if ( itemList [ i ].numberHeld > 0 ) {
+                    GameObject temp = Instantiate ( blankInventorySlot, list.transform.position, Quaternion.identity );
+                    temp.transform.SetParent ( list.transform );
+                    ItemSlots newSlot = temp.GetComponent<ItemSlots> ();
+                    newSlot.transform.localScale = new Vector3 ( 1f, 1f, 1f );
+                    if ( newSlot ) {
+                        newSlot.Setup ( itemList [ i ], this );
+                    }
                 }
             }
         }
@@ -54,21 +58,13 @@ public class InventoryManager : MonoBehaviour {
         }
     }
 
-    //public void ViewNameDesc (string name, string desc, Sprite itemImg, Sprite lootImg ) {
-    //    itemName.text = name;
-    //    itemDesc.text = desc;
-    //    itemImage.sprite = itemImg;
-    //    lootImage.sprite = lootImg;
-    //}
-
-    //public void RemoveItem (Items thisItem) {
-    //    for ( int i = 0; i < itemList.Count; i++ ) {
-    //        if ( itemList [ i ].itemName == thisItem.itemName ) {
-    //            thisItem = itemList [ i ];
-
-    //            itemList.Remove (thisItem);
-    //            break;
-    //        }
-    //    }
-    //}
+    public void RemoveItem ( InventoryItem thisItem ) {
+        for ( int i = 0; i < itemList.Count; i++ ) {
+            if ( itemList [ i ].itemName == thisItem.itemName ) {
+                thisItem = itemList [ i ];
+                itemList.Remove ( thisItem );
+                break;
+            }
+        }
+    }
 }
